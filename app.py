@@ -29,7 +29,7 @@ def main():
     category_uris = data_use['item_uri'].unique().tolist()
     page_num = st.number_input(f'[use the widget below to navigate between collection items (max {len(category_uris)})]', min_value=1, max_value=len(category_uris), value=1)
 
-    item_data = data_use.loc[data_use['item_uri'] == category_uris[page_num]]
+    item_data = data_use.loc[data_use['item_uri'] == category_uris[page_num-1]]
     item_title = item_data['TITLE'].iloc[0] if str(item_data['TITLE'].iloc[0]) != "nan" else "(no title)"
     item_uri = item_data["item_uri"].iloc[0]
     st.markdown(f"## {item_title} [↗]({item_uri})")

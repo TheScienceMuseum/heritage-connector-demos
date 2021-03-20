@@ -6,16 +6,12 @@ import pandas as pd
 import streamlit_utils
 import config
 
-# constants
-doc_attrs = [ENT_TYPE, ENT_IOB]
-
 def main():
     st.set_page_config(page_title="Heritage Connector Demo")
     st.markdown(streamlit_utils.load_image("header_cropped.png"), unsafe_allow_html=True)
     st.title("Heritage Connector Demo: Named Entity Recognition and Entity Linking")
 
     data = load_data()
-    data['candidate_uri'] = data['candidate_uri'].apply(streamlit_utils.make_clickable)
 
     # st.write(data.head())
     categories = data['demo_category'].unique().tolist()
@@ -62,6 +58,7 @@ def main():
 def load_data():
     with st.spinner("Loading data..."):
         df = pd.read_pickle(config.ner_data_path)
+        df['candidate_uri'] = df['candidate_uri'].apply(streamlit_utils.make_clickable)
     return df
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 # heritage-connector-demos
 public demos for Heritage Connector
 
-`TODO: docker container`
+`TODO: test Dockerfile`
 ## To run: 
 
 ``` bash

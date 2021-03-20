@@ -1,8 +1,6 @@
 # external
 import streamlit as st
 import pandas as pd
-import spacy
-from spacy.attrs import ENT_TYPE, ENT_IOB
 
 # internal
 import streamlit_utils

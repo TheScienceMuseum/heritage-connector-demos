@@ -58,7 +58,7 @@ def main():
             st.write(group.loc[group['y_pred'] >= threshold, ['candidate_title', 'candidate_type', 'candidate_uri', 'y_pred']].sort_values('y_pred', ascending=False).to_html(escape=False, index=False), unsafe_allow_html=True)
             "---"
             
-# @st.cache(suppress_st_warning=True, allow_output_mutation=True)
+@st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def load_data():
     with st.spinner("Loading data..."):
         df = pd.read_pickle(config.ner_data_path)

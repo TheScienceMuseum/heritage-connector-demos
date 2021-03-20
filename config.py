@@ -1,0 +1,1 @@
+ner_data_path = "demo_data.pkl"

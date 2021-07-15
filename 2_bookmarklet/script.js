@@ -14,8 +14,10 @@ const debug = false;
 
 const bookmarkletTitle = 'Heritage Connector - connections found' //window.document.title
 
+const pageURI = (debug) ? "https://collection.sciencemuseumgroup.org.uk/objects/co33" : window.location.href
+
 openSidebar();
-show_annotations("https://collection.sciencemuseumgroup.org.uk/objects/co33")
+show_annotations(pageURI)
 
 //--------------------------------------------------------------------------------------------------
 function closeSidebar(id) {

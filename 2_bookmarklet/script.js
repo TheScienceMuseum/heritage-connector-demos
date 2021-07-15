@@ -206,3 +206,96 @@ function findPosY(obj) {
         curtop += obj.y;
     return curtop;
 }
+
+//----------------------------------------------------------------------------------------
+// `styles` is copy-pasted from `./styles.css`
+var styles = `
+.pidannotate {
+    position:    		fixed;
+    top:         		0px;
+    right:       		0px;
+    width:       		300px;
+    height:      		100vh;
+    padding:     		20px;
+    background-color: 	white;
+    color:       		black;
+    text-align:  		left;
+    font-size:   		12px;
+    font-weight: 		normal;
+    font-family: 		Helvetica, Arial, sans-serif;
+    box-shadow:  		-5px 5px 5px 0px rgba(50, 50, 50, 0.3);
+    z-index:     		200000;
+    overflow-y:			auto;
+}
+
+.pidannotate h1 {
+    font-size:14px;
+    line-height:18px;
+    font-weight:bold;
+    margin: 4px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.pidannotate h2 {
+    font-size:12px;
+    line-height:14px;
+    font-weight:bold;
+    margin: 4px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.pidannotate h3 {
+    font-size:12px;
+    line-height:12px;
+    font-weight:bold;
+    margin: 4px -8px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+        
+.pidannotate a {
+    text-decoration:none;
+    color:rgb(28,27,168);
+}   
+
+.pidannotate a:hover {
+    text-decoration:underline;
+}
+
+.pidannotate-image-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+    justify-content: space-evenly;
+    background: rgb(228,228,228); 
+    border-radius: 12px;
+}		
+
+.pidannotate-image-item {
+    margin: 5px;
+    border:1px solid rgb(228,228,228);
+    object-fit: cover;
+}	
+
+.pidannotate img {
+    height:100px;
+}	
+
+.pidannotate ul {
+    margin: 0;
+    padding-left:24px;
+    text-indent: 0;
+    list-style-type: 0;
+}
+
+.pidannotate .predicategroup {
+    border: 1px grey;
+    border-style: solid none;
+    padding: 10px 0;
+}
+`
+
+// Add the styles above to a <style> tag before the first <script> tag in the body
+var styleSheet = document.createElement("style")
+styleSheet.innerText = styles
+var ref = document.querySelector('script');
+ref.parentNode.insertBefore(styleSheet, ref);

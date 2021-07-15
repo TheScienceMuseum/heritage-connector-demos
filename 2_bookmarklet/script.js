@@ -76,6 +76,12 @@ function show_annotations(uri) {
 
 //--------------------------------------------------------------------------------------------------
 function openSidebar() {
+    let sidebar = document.createElement("div")
+    sidebar.setAttribute("id", "pidannotate");
+    sidebar.setAttribute("class", "pidannotate");
+
+    document.body.appendChild(sidebar)
+
     var html = '<span style="float:right;" onclick="closeSidebar(\'pidannotate\')">Close [x]</span>';
 
     // Title

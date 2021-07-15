@@ -5,7 +5,7 @@
 // http://stackoverflow.com/questions/5281007/bookmarklets-which-creates-an-overlay-on-page
 
 // remote
-var api_url = 'http://ec2-63-34-20-84.eu-west-1.compute.amazonaws.com:8501/predicate_object/by_uri?labels=true&uri=';
+var api_url = '//ec2-63-34-20-84.eu-west-1.compute.amazonaws.com:8501/predicate_object/by_uri?labels=true&uri=';
 
 // local
 // var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';

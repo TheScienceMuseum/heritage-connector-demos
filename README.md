@@ -1,10 +1,7 @@
-# heritage-connector-demos
-public demos for Heritage Connector
+# Heritage Connector public demos
 
-`TODO: test Dockerfile`
-## To run: 
+This repo contains various demos and sketches of demos for Heritage Connector. Namely:
 
-``` bash
-pip install -r requirements.txt
-streamlit run app.py
-```
+1. an interactive streamlit app showing NER and entity linking which uses static data for speed
+2. a bookmarklet to view connections from an SMG collection, blog or journal page
+3. a macro visualisation of the whole collection/knowledge graph

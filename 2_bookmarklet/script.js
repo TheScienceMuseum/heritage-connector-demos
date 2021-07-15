@@ -27,7 +27,7 @@ function closeSidebar(id) {
 async function getDataFromAPI(url) {
     const response = await fetch(api_url.concat(url), {
         method: 'POST',
-        mode: 'same-origin'
+        mode: (debug) ? 'same-origin' : 'cors'
     })
 
     return response.json();

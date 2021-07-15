@@ -5,10 +5,12 @@
 // http://stackoverflow.com/questions/5281007/bookmarklets-which-creates-an-overlay-on-page
 
 // remote
-var api_url = '';
+var api_url = 'http://FILL_ME_IN.eu-west-1.compute.amazonaws.com:8501/predicate_object/by_uri?labels=true&uri=';
 
 // local
-var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
+// var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
+
+const debug = false;
 
 const bookmarkletTitle = 'Heritage Connector - connections found' //window.document.title
 
@@ -76,12 +78,13 @@ function show_annotations(uri) {
 
 //--------------------------------------------------------------------------------------------------
 function openSidebar() {
-    let sidebar = document.createElement("div")
-    sidebar.setAttribute("id", "pidannotate");
-    sidebar.setAttribute("class", "pidannotate");
+    if (!debug) {
+        let sidebar = document.createElement("div")
+        sidebar.setAttribute("id", "pidannotate");
+        sidebar.setAttribute("class", "pidannotate");
 
-    document.body.appendChild(sidebar)
-
+        document.body.appendChild(sidebar)
+    }
     var html = '<span style="float:right;" onclick="closeSidebar(\'pidannotate\')">Close [x]</span>';
 
     // Title

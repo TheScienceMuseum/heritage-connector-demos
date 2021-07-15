@@ -8,7 +8,7 @@
 var api_url = '';
 
 // local
-var api_url = 'http://localhost:8010/predicate_object/by_uri?uri=';
+var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
 
 const bookmarkletTitle = 'Heritage Connector - connections found' //window.document.title
 
@@ -53,7 +53,11 @@ function show_annotations(uri) {
                         gbPredicate.get(predicate).forEach(function(obj) {
                             html += '<li>';
                             if (obj.object.type == 'uri') {
-                                html += '<a href="' + obj.object.value + '">' + abbreviateURI(obj.object.value) + '</a>'
+                                if (obj.objectLabel) {
+                                    html += '<a href="' + obj.object.value + '">' + obj.objectLabel.value + ' [' + abbreviateURI(obj.object.value) + ']' + '</a>'
+                                } else {
+                                    html += '<a href="' + obj.object.value + '">' + abbreviateURI(obj.object.value) + '</a>'
+                                }
                             } else {
                                 html += obj.object.value
                             }

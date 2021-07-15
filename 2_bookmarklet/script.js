@@ -4,17 +4,20 @@
 
 // http://stackoverflow.com/questions/5281007/bookmarklets-which-creates-an-overlay-on-page
 
-// remote
-var api_url = 'https://d0rgkq.deta.dev/predicate_object/by_uri?labels=true&uri=';
-
-// local
-// var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
-
-const debug = false;
-
 const bookmarkletTitle = 'Heritage Connector - connections found' //window.document.title
 
-const pageURI = (debug) ? "https://collection.sciencemuseumgroup.org.uk/objects/co33" : window.location.href
+// SET ME TO FALSE BEFORE PUSHING
+const debug = false;
+
+if (debug) {
+    // local debugging
+    var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
+    var pageURI = 'https://collection.sciencemuseumgroup.org.uk/objects/co33';
+} else {
+    // remote: deployed
+    var api_url = 'https://d0rgkq.deta.dev/predicate_object/by_uri?labels=true&uri=';
+    var pageURI = window.location.href
+}
 
 openSidebar();
 show_annotations(pageURI)
@@ -240,68 +243,68 @@ var styles = `
 }
 
 .pidannotate h1 {
-    font-size:14px;
-    line-height:18px;
-    font-weight:bold;
-    margin: 4px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-size:14px; !important
+    line-height:18px; !important
+    font-weight:bold; !important
+    margin: 4px; !important
+    font-family: Helvetica, Arial, sans-serif; !important
 }
 
 .pidannotate h2 {
-    font-size:12px;
-    line-height:14px;
-    font-weight:bold;
-    margin: 4px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-size:12px; !important
+    line-height:14px; !important
+    font-weight:bold; !important
+    margin: 4px; !important
+    font-family: Helvetica, Arial, sans-serif; !important
 }
 
 .pidannotate h3 {
-    font-size:12px;
-    line-height:12px;
-    font-weight:bold;
-    margin: 4px -8px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-size:12px; !important
+    line-height:12px; !important
+    font-weight:bold; !important
+    margin: 4px -8px; !important
+    font-family: Helvetica, Arial, sans-serif; !important
 }
         
 .pidannotate a {
-    text-decoration:none;
-    color:rgb(28,27,168);
+    text-decoration:none; !important
+    color:rgb(28,27,168); !important
 }   
 
 .pidannotate a:hover {
-    text-decoration:underline;
+    text-decoration:underline; !important
 }
 
 .pidannotate-image-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 5px;
-    justify-content: space-evenly;
-    background: rgb(228,228,228); 
-    border-radius: 12px;
+    display: flex; !important
+    flex-wrap: wrap; !important
+    padding: 5px; !important
+    justify-content: space-evenly; !important
+    background: rgb(228,228,228);  !important
+    border-radius: 12px; !important
 }		
 
 .pidannotate-image-item {
-    margin: 5px;
-    border:1px solid rgb(228,228,228);
-    object-fit: cover;
+    margin: 5px; !important
+    border:1px solid rgb(228,228,228); !important
+    object-fit: cover; !important
 }	
 
 .pidannotate img {
-    height:100px;
+    height:100px; !important
 }	
 
 .pidannotate ul {
-    margin: 0;
-    padding-left:24px;
-    text-indent: 0;
-    list-style-type: 0;
+    margin: 0; !important
+    padding-left:24px; !important
+    text-indent: 0; !important
+    list-style-type: 0; !important
 }
 
 .pidannotate .predicategroup {
-    border: 1px grey;
-    border-style: solid none;
-    padding: 10px 0;
+    border: 1px grey; !important
+    border-style: solid none; !important
+    padding: 10px 0; !important
 }
 `
 

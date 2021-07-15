@@ -1,0 +1,1 @@
+javascript:(function(a){%20a=document.createElement('script');a.type='text/javascript';a.src='https://pid-demonstrator.herokuapp.com/js/script.js?x='+Date.now();document.getElementsByTagName('body')[0].appendChild(a);})();

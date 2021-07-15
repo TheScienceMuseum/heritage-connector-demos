@@ -1,0 +1,19 @@
+<head>
+    <title>bookmarklet test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <p id="text"></p>
+    <script type="text/javascript">
+        window.onload = function() {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = 'script.js'
+
+            document.getElementsByTagName('body')[0].appendChild(s);
+        }    
+    </script>
+    <div class="pidannotate" id="pidannotate"></div>
+</body>
+

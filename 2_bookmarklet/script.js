@@ -190,7 +190,7 @@ function normalizeCollectionURL(url) {
     // remove anything after cp/co/cd/aa-ID from the collection URL
     // if the URL is not a collection URL then it returns the original URL
     const regex = /https:\/\/(?:collection\.sciencemuseum).(?:\w.+)\/(?:co|cd|cp|aa)(?:\d+)/g
-    if (url.match(regex).length == 1) {
+    if ((url.match(regex)) && (url.match(regex).length == 1)) {
         return url.match(regex)[0]
     } else {
         return url

@@ -56,7 +56,7 @@ function show_annotations(uri) {
                 predicates.forEach(function(predicate) {
                     if (gbPredicate.get(predicate)) {
                         if (gbPredicate.get(predicate).length > maxItemsToDisplayPerPredicate) {
-                            html += '<h3>' + abbreviateURI(predicate) + ' (' + gbPredicate.get(predicate).length + ' total)</h3>';
+                            html += '<h3>' + abbreviateURI(predicate) + ' (' + gbPredicate.get(predicate).length + ' total, ' + maxItemsToDisplayPerPredicate + ' shown)</h3>';
                         } else {
                             html += '<h3>' + abbreviateURI(predicate) + '</h3>';
                         }

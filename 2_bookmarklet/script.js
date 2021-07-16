@@ -1,9 +1,5 @@
 // Bookmarklet
 
-// http://code.tutsplus.com/tutorials/create-bookmarklets-the-right-way--net-18154
-
-// http://stackoverflow.com/questions/5281007/bookmarklets-which-creates-an-overlay-on-page
-
 const bookmarkletTitle = 'Heritage Connector - connections found' //window.document.title
 
 // SET ME TO FALSE BEFORE PUSHING
@@ -19,8 +15,9 @@ if (debug) {
     var pageURI = window.location.href
 }
 
+pageURI = normalizeCollectionURL(pageURI);
 openSidebar();
-show_annotations(pageURI)
+show_annotations(pageURI);
 
 //--------------------------------------------------------------------------------------------------
 function closeSidebar(id) {
@@ -187,6 +184,17 @@ const predicateAbbreviationMapping = {
     'https://collection.sciencemuseumgroup.org.uk/documents/': 'SMGD',
     'https://blog.sciencemuseum.org.uk/': 'SMGBLOG',
     'http://journal.sciencemuseum.ac.uk/browse/': 'SMGJOURNAL',
+}
+
+function normalizeCollectionURL(url) {
+    // remove anything after cp/co/cd/aa-ID from the collection URL
+    // if the URL is not a collection URL then it returns the original URL
+    const regex = /https:\/\/(?:collection\.sciencemuseum).(?:\w.+)\/(?:co|cd|cp|aa)(?:\d+)/g
+    if (url.match(regex).length == 1) {
+        return url.match(regex)[0]
+    } else {
+        return url
+    }
 }
 
 //----------------------------------------------------------------------------------------

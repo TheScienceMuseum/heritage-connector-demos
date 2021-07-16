@@ -47,7 +47,7 @@ function show_annotations(uri) {
             // TODO: iterate through list of manually ordered predicates instead, so we can split them
 
             for (const [groupName, predicates] of Object.entries(predicateManualGroups)) {
-                html += "<div class='predicategroup'>"
+                // html += "<div class='predicategroup'>"
                 html += '<h2>' + groupName + '</h2>'
                 html += '<ul>'
 
@@ -69,7 +69,7 @@ function show_annotations(uri) {
                         })
                     };
                 })
-                html += '</ul> </div>'
+                html += '</ul> <hr>'
             }
             
             document.getElementById("pidannotate").innerHTML += html
@@ -233,6 +233,10 @@ function findPosY(obj) {
 // `styles` is copy-pasted from `./styles.css`
 var styles = `
 .pidannotate {
+    all: initial;
+}
+
+.pidannotate {
     position:    		fixed;
     top:         		0px;
     right:       		0px;
@@ -244,76 +248,77 @@ var styles = `
     text-align:  		left;
     font-size:   		12px;
     font-weight: 		normal;
-    font-family: 		Helvetica, Arial, sans-serif;
+    font-family: 		Helvetica, Arial, sans-serif ;
     box-shadow:  		-5px 5px 5px 0px rgba(50, 50, 50, 0.3);
     z-index:     		200000;
     overflow-y:			auto;
 }
 
+.pidannotate * {
+    font-family: Helvetica, Arial, sans-serif ;
+}
+
+.pidannotate hr {
+    margin: 10px auto; 
+}
+
 .pidannotate h1 {
-    font-size:14px; !important
-    line-height:18px; !important
-    font-weight:bold; !important
-    margin: 4px; !important
-    font-family: Helvetica, Arial, sans-serif; !important
+    font-size:14px; 
+    line-height:18px; 
+    font-weight:bold; 
+    margin: 4px; 
+    font-family: Helvetica, Arial, sans-serif; 
 }
 
 .pidannotate h2 {
-    font-size:12px; !important
-    line-height:14px; !important
-    font-weight:bold; !important
-    margin: 4px; !important
-    font-family: Helvetica, Arial, sans-serif; !important
+    font-size:12px; 
+    line-height:12px; 
+    font-weight:bold; 
+    margin: 4px; 
+    padding: revert; 
+    font-family: Helvetica, Arial, sans-serif; 
 }
 
 .pidannotate h3 {
-    font-size:12px; !important
-    line-height:12px; !important
-    font-weight:bold; !important
-    margin: 4px -8px; !important
-    font-family: Helvetica, Arial, sans-serif; !important
+    font-size:12px; 
+    margin-top: 10px; 
+    margin-bottom: 4px; 
+    margin-left: -10px;
+    line-height:12px; 
+    font-weight:bold; 
+    padding: revert; 
+    font-family: Helvetica, Arial, sans-serif; 
 }
         
 .pidannotate a {
-    text-decoration:none; !important
-    color:rgb(28,27,168); !important
+    text-decoration:none; 
+    color:rgb(28,27,168); 
+    padding: revert; 
 }   
 
 .pidannotate a:hover {
-    text-decoration:underline; !important
+    text-decoration:underline; 
 }
-
-.pidannotate-image-container {
-    display: flex; !important
-    flex-wrap: wrap; !important
-    padding: 5px; !important
-    justify-content: space-evenly; !important
-    background: rgb(228,228,228);  !important
-    border-radius: 12px; !important
-}		
-
-.pidannotate-image-item {
-    margin: 5px; !important
-    border:1px solid rgb(228,228,228); !important
-    object-fit: cover; !important
-}	
-
-.pidannotate img {
-    height:100px; !important
-}	
 
 .pidannotate ul {
-    margin: 0; !important
-    padding-left:24px; !important
-    text-indent: 0; !important
-    list-style-type: 0; !important
+    margin: 0; 
+    padding-left:15px; 
+    text-indent: 0; 
+    list-style-type: 0; 
 }
 
-.pidannotate .predicategroup {
-    border: 1px grey; !important
-    border-style: solid none; !important
-    padding: 10px 0; !important
+.pidannotate li {
+    font-size: 12px;
+    margin-left: 10px; 
+    line-height: 16px;
 }
+
+// .pidannotate .predicategroup {
+//     border: 1px grey; 
+//     border-style: solid none; 
+//     border-width: 0 1px;
+//     padding: 10px 0; 
+// }
 `
 
 // Add the styles above to a <style> tag before the first <script> tag in the body

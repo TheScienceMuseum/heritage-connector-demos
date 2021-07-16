@@ -5,6 +5,8 @@ const bookmarkletTitle = 'Heritage Connector - connections found' //window.docum
 // SET ME TO FALSE BEFORE PUSHING
 const debug = false;
 
+var maxItemsToDisplayPerPredicate = 30;
+
 if (debug) {
     // local debugging
     var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
@@ -53,8 +55,12 @@ function show_annotations(uri) {
 
                 predicates.forEach(function(predicate) {
                     if (gbPredicate.get(predicate)) {
-                        html += '<h3>' + abbreviateURI(predicate) + '</h3>';
-                        gbPredicate.get(predicate).forEach(function(obj) {
+                        if (gbPredicate.get(predicate).length > maxItemsToDisplayPerPredicate) {
+                            html += '<h3>' + abbreviateURI(predicate) + ' (' + gbPredicate.get(predicate).length + ' total)</h3>';
+                        } else {
+                            html += '<h3>' + abbreviateURI(predicate) + '</h3>';
+                        }
+                        gbPredicate.get(predicate).slice(0, maxItemsToDisplayPerPredicate).forEach(function(obj) {
                             html += '<li>';
                             if (obj.object.type == 'uri') {
                                 if (obj.objectLabel) {

@@ -17,6 +17,8 @@ if (debug) {
     var pageURI = window.location.href
 }
 
+var sheetsReviewURL = 'https://docs.google.com/spreadsheets/d/1nc10D5UwBDrEKXOkSJ440EjsvWjqqw5vq-1cG5cM_fw/edit#gid=0'
+
 pageURI = normalizeCollectionURL(pageURI);
 openSidebar();
 show_annotations(pageURI);
@@ -97,6 +99,8 @@ function openSidebar() {
 
     // Title
     html += '<h1>' + bookmarkletTitle + '</h1>';
+    html += '<a style="margin: 0 4px" href=' + sheetsReviewURL + '" target="_blank">' + 'Log interesting/incorrect connections (HC team)</a>'
+    html += '<hr>'
     document.getElementById('pidannotate').innerHTML = html;
 
 }

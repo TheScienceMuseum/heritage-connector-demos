@@ -10,7 +10,7 @@ We give thanks to [Roderic Page](https://github.com/rdmpage) for his work for th
 
 1. Copy the below text. This is the code which runs the bookmarklet.
 ```
-javascript:(function(a){%20a=document.createElement('script');a.type='text/javascript';a.src='//cdn.jsdelivr.net/gh/TheScienceMuseum/heritage-connector-demos@7249137/2_bookmarklet/script.js';document.getElementsByTagName('body')[0].appendChild(a);})();
+javascript:(function(a){%20a=document.createElement('script');a.type='text/javascript';a.src='//cdn.jsdelivr.net/gh/TheScienceMuseum/heritage-connector-demos@3f9136a/2_bookmarklet/script.js';document.getElementsByTagName('body')[0].appendChild(a);})();
 ```
 2. Add a new bookmark to your browser and call it whatever you want. Paste the text you copied into the 'URL' field.
 

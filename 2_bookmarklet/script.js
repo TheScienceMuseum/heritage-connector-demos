@@ -6,14 +6,15 @@ const bookmarkletTitle = 'Heritage Connector - connections found' //window.docum
 const debug = false;
 
 var maxItemsToDisplayPerPredicate = 30;
+var numSimilarItemsToDisplay = 20;
 
 if (debug) {
     // local debugging
-    var api_url = 'http://localhost:8010/predicate_object/by_uri?labels=true&uri=';
+    var api_url = 'http://localhost:8010';
     var pageURI = 'https://collection.sciencemuseumgroup.org.uk/objects/co33';
 } else {
     // remote: deployed
-    var api_url = 'https://d0rgkq.deta.dev/predicate_object/by_uri?labels=true&uri=';
+    var api_url = 'https://d0rgkq.deta.dev';
     var pageURI = window.location.href
 }
 
@@ -30,8 +31,8 @@ function closeSidebar(id) {
 
 //--------------------------------------------------------------------------------------------------
 
-async function getDataFromAPI(url) {
-    const response = await fetch(api_url.concat(url), {
+async function getPredicateObjectFromAPI(url) {
+    const response = await fetch(api_url.concat('/predicate_object/by_uri?labels=true&uri=', url), {
         method: 'POST',
         mode: (debug) ? 'same-origin' : 'cors'
     })
@@ -39,10 +40,42 @@ async function getDataFromAPI(url) {
     return response.json();
 }
 
-// annotations?
+async function getNearestNeighboursFromAPI(url, k) {
+
+    var data = {
+        "entities": [url],
+        "k": k
+    }
+
+    const response = await fetch(api_url.concat('/neighbours'), {
+        method: 'POST',
+        mode: (debug) ? 'same-origin' : 'cors',
+        headers: {'Content-Type': 'application/json'},      
+        body: JSON.stringify(data)
+    })
+
+    return response.json();
+}
+
+async function getLabelsFromAPI(urls) {
+    var data = {
+        "uris": urls
+    }
+
+    const response = await fetch(api_url.concat('/labels'), {
+        method: 'POST',
+        mode: (debug) ? 'same-origin' : 'cors',
+        headers: {'Content-Type': 'application/json'},      
+        body: JSON.stringify(data)
+    })
+
+    return response.json()
+
+}
+
 function show_annotations(uri) {
 
-    getDataFromAPI(uri)
+    getPredicateObjectFromAPI(uri)
         .then(data => {
             const gbPredicate = groupBy(data, item => item.predicate.value, abbreviateURI)
             console.log(gbPredicate)
@@ -82,6 +115,35 @@ function show_annotations(uri) {
             
             document.getElementById("pidannotate").innerHTML += html
         });
+
+    getNearestNeighboursFromAPI(uri, numSimilarItemsToDisplay)
+        .then(data => {
+            
+            const neighbours = data[uri].map(x => x[0]);
+            // in JS to round to 2 d.p. we have to multiply by 100, round to integer, then divide by 100!
+            const neighbourURIs = neighbours.filter(x => x.startsWith("http"));
+            getLabelsFromAPI(neighbourURIs).then(labelMapping => {
+                var html = '<h2>' + numSimilarItemsToDisplay + ' most similar items (similarity)</h2> <ul>';
+
+                data[uri].forEach(item => {
+                    html += '<li>';
+                    
+                    var similarity = Math.round((1-item[1])*100)/100
+
+                    if (labelMapping[item[0]]) {
+                        // there is a label
+                        // console.log(item[0], labelMapping[item[0]], item[1])
+                        html += '<a href="' + item[0] + '">' + labelMapping[item[0]] + ' [' + abbreviateURI(item[0]) + ']</a> (' + similarity + ')'
+                    } else {
+                        // console.log("no label", item[0], item[1])
+                        html += '<a href="' + item[0] + '">' + abbreviateURI(item[0]) + '</a> [' + similarity + ']'
+                    }
+                    html += '</li>'
+                })
+                html += '</ul> <hr>'
+                document.getElementById("pidannotate").innerHTML += html
+            });
+        })
 
 }
 

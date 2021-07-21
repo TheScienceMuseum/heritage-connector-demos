@@ -8,6 +8,8 @@ We give thanks to [Roderic Page](https://github.com/rdmpage) for his work for th
 
 ## Installation:
 
+If you've never used a bookmarklet before, it might be worth running through [these instructions for different browsers](https://mreidsma.github.io/bookmarklets/installing.html).
+
 1. Copy the below text. This is the code which runs the bookmarklet.
 ```
 javascript:(function(a){%20a=document.createElement('script');a.type='text/javascript';a.src='//cdn.jsdelivr.net/gh/TheScienceMuseum/heritage-connector-demos@7f8e164/2_bookmarklet/script.js';document.getElementsByTagName('body')[0].appendChild(a);})();

@@ -219,7 +219,7 @@ const clicker = fc.clicker()
     return;
   }
   console.log("click!")
-  document.getElementById("attributepane").style.display = "block"; 
+  
 
   // find the closes datapoint to the pointer
   const x = xScale.invert(coord.x);
@@ -228,6 +228,7 @@ const clicker = fc.clicker()
   const closestDatum = quadtree.find(x, y, radius);
   // if the closest point is within 20 pixels, show the annotation
   if (closestDatum) {
+    document.getElementById("attributepane").style.display = "block"; 
     document.getElementById("attributeheadertext").innerHTML = "<a href='" + closestDatum.id + "' target='_blank'>" + closestDatum.label + "</a>";
     document.getElementById("attributetext").innerHTML = "<ul><li><em>Category: </em>" + closestDatum.collection_category + "</li></ul>";
   }

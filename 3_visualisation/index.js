@@ -66,6 +66,24 @@ streamingLoaderWorker.onmessage = ({
       .x(d => d.x)
       .y(d => d.y)
       .addAll(data);
+    
+    // create legend
+    const uniqueTypes = data.map(d => d.type).filter(onlyUnique);
+    const typeColors = uniqueTypes.map(d => typeColorScale(hashCode(d) % 10));
+    var typeColorMapping = uniqueTypes.map(function (x, i) { 
+      return {name: x, color: typeColors[i]}
+    });
+    
+    
+    const uniqueCollectionCategories = data.map(d => d.collection_category).filter(onlyUnique);
+    const collectionCategoryColors = uniqueCollectionCategories.map(d => typeColorScale(hashCode(d) % 20));
+    var collectionCategoryColorMapping = uniqueCollectionCategories.map(function (x, i) { 
+      return {name: x, color: collectionCategoryColors[i]}
+    });
+    
+    console.log(typeColorMapping);
+    console.log(collectionCategoryColorMapping);
+    // TODO: modify createLegend function below to use these mappings
   }
 
   redraw();
@@ -73,14 +91,80 @@ streamingLoaderWorker.onmessage = ({
 streamingLoaderWorker.postMessage("visualisation_data_n_neighbours_10.tsv");
 
 const typeColorScale = d3.scaleOrdinal(d3.schemeCategory10);
-const yearColorScale = d3
-  .scaleSequential()
-  .domain([1850, 2000])
-  .interpolator(d3.interpolateRdYlGn);
+
+function createLegend({
+  nameColorMapping,
+  columns = null,
+  swatchSize = 15,
+  swatchWidth = swatchSize,
+  swatchHeight = swatchSize,
+  marginLeft = 0
+}) {
+  const id = DOM.uid().id;
+
+  if (columns !== null) return html`<div style="display: flex; align-items: center; margin-left: ${+marginLeft}px; min-height: 33px; font: 10px sans-serif;">
+  <style>
+
+  .${id}-item {
+    break-inside: avoid;
+    display: flex;
+    align-items: center;
+    padding-bottom: 1px;
+  }
+
+  .${id}-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - ${+swatchWidth}px - 0.5em);
+  }
+
+  .${id}-swatch {
+    width: ${+swatchWidth}px;
+    height: ${+swatchHeight}px;
+    margin: 0 0.5em 0 0;
+  }
+
+    </style>
+    <div style="width: 100%; columns: ${columns};">${nameColorMapping.map(value => {
+      const label = value.name;
+      return html`<div class="${id}-item">
+        <div class="${id}-swatch" style="background:${value.color};"></div>
+        <div class="${id}-label" title="${label.replace(/["&]/g, entity)}">${document.createTextNode(label)}</div>
+      </div>`;
+    })}
+    </div>
+  </div>`;
+
+    return html`<div style="display: flex; align-items: center; min-height: 33px; margin-left: ${+marginLeft}px; font: 10px sans-serif;">
+    <style>
+
+  .${id} {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 1em;
+  }
+
+  .${id}::before {
+    content: "";
+    width: ${+swatchWidth}px;
+    height: ${+swatchHeight}px;
+    margin-right: 0.5em;
+    background: var(--color);
+  }
+
+  </style>
+  <div>${nameColorMapping.map(value => html`<span class="${id}" style="--color: ${value.color}">${document.createTextNode(value.name)}</span>`)}</div>`;
+}
+
 const xScale = d3.scaleLinear().domain([-40, 40]);
 const yScale = d3.scaleLinear().domain([-40, 40]);
 const xScaleOriginal = xScale.copy();
 const yScaleOriginal = yScale.copy();
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 
 const pointSeries = fc
   .seriesWebglPoint()
@@ -132,6 +216,7 @@ const clicker = fc.clicker()
     return;
   }
   console.log("click!")
+  document.getElementById("attributepane").style.display = "block"; 
 
   // find the closes datapoint to the pointer
   const x = xScale.invert(coord.x);

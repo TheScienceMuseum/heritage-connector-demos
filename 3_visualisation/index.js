@@ -40,6 +40,22 @@ streamingLoaderWorker.onmessage = ({
   if (finished) {
     document.getElementById("loading").style.display = "none";
 
+    // create legend
+    const uniqueTypes = data.map(d => d.type).filter(onlyUnique);
+    const typeColors = uniqueTypes.map(d => typeColorScale(hashCode(d) % 10));
+    var typeColorMapping = uniqueTypes.map(function (x, i) { 
+      return {name: x, color: typeColors[i]}
+    });
+    
+    const uniqueCollectionCategories = data.map(d => d.collection_category).filter(onlyUnique);
+    const collectionCategoryColors = uniqueCollectionCategories.map(d => typeColorScale(hashCode(d) % 20));
+    var collectionCategoryColorMapping = uniqueCollectionCategories.map(function (x, i) { 
+      return {name: x, color: collectionCategoryColors[i]}
+    });
+    
+    document.getElementById("legend").innerHTML = createLegend(typeColorMapping);
+    // console.log(collectionCategoryColorMapping);
+
     // compute the fill color for each datapoint
     const typeFill = d =>
       webglColor(typeColorScale(hashCode(d.type) % 10));
@@ -56,6 +72,7 @@ streamingLoaderWorker.onmessage = ({
         iterateElements(".controls a", el2 => el2.classList.remove("active"));
         el.classList.add("active");
         fillColor.value(el.id === "type" ? typeFill : collectionCategoryFill);
+        document.getElementById("legend").innerHTML = (el.id == "type") ? createLegend(typeColorMapping) : createLegend(collectionCategoryColorMapping.slice(0,10));
         redraw();
       });
     });
@@ -67,23 +84,6 @@ streamingLoaderWorker.onmessage = ({
       .y(d => d.y)
       .addAll(data);
     
-    // create legend
-    const uniqueTypes = data.map(d => d.type).filter(onlyUnique);
-    const typeColors = uniqueTypes.map(d => typeColorScale(hashCode(d) % 10));
-    var typeColorMapping = uniqueTypes.map(function (x, i) { 
-      return {name: x, color: typeColors[i]}
-    });
-    
-    
-    const uniqueCollectionCategories = data.map(d => d.collection_category).filter(onlyUnique);
-    const collectionCategoryColors = uniqueCollectionCategories.map(d => typeColorScale(hashCode(d) % 20));
-    var collectionCategoryColorMapping = uniqueCollectionCategories.map(function (x, i) { 
-      return {name: x, color: collectionCategoryColors[i]}
-    });
-    
-    console.log(typeColorMapping);
-    console.log(collectionCategoryColorMapping);
-    // TODO: modify createLegend function below to use these mappings
   }
 
   redraw();
@@ -92,57 +92,60 @@ streamingLoaderWorker.postMessage("visualisation_data_n_neighbours_10.tsv");
 
 const typeColorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
-function createLegend({
+function entity(character) {
+  return `&#${character.charCodeAt(0).toString()};`;
+}
+
+function createLegend(
   nameColorMapping,
   columns = null,
   swatchSize = 15,
   swatchWidth = swatchSize,
   swatchHeight = swatchSize,
   marginLeft = 0
-}) {
-  const id = DOM.uid().id;
+) {
+  const id = "legend-element";
 
-  if (columns !== null) return html`<div style="display: flex; align-items: center; margin-left: ${+marginLeft}px; min-height: 33px; font: 10px sans-serif;">
-  <style>
+  if (columns !== null) return `<div style="display: flex; align-items: center; margin-left: ${+marginLeft}px; min-height: 33px; font: 10px sans-serif;">
+    <style>
+      .${id}-item {
+        break-inside: avoid;
+        display: flex;
+        align-items: center;
+        padding-bottom: 1px;
+      }
 
-  .${id}-item {
-    break-inside: avoid;
-    display: flex;
-    align-items: center;
-    padding-bottom: 1px;
-  }
+      .${id}-label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100% - ${+swatchWidth}px - 0.5em);
+      }
 
-  .${id}-label {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(100% - ${+swatchWidth}px - 0.5em);
-  }
-
-  .${id}-swatch {
-    width: ${+swatchWidth}px;
-    height: ${+swatchHeight}px;
-    margin: 0 0.5em 0 0;
-  }
-
+      .${id}-swatch {
+        width: ${+swatchWidth}px;
+        height: ${+swatchHeight}px;
+        margin: 0 0.5em 0 0;
+      }
     </style>
     <div style="width: 100%; columns: ${columns};">${nameColorMapping.map(value => {
       const label = value.name;
-      return html`<div class="${id}-item">
+      return `<div class="${id}-item">
         <div class="${id}-swatch" style="background:${value.color};"></div>
-        <div class="${id}-label" title="${label.replace(/["&]/g, entity)}">${document.createTextNode(label)}</div>
+        <div class="${id}-label" title="${label.replace(/["&]/g, entity)}">${label}</div>
       </div>`;
     })}
     </div>
   </div>`;
 
-    return html`<div style="display: flex; align-items: center; min-height: 33px; margin-left: ${+marginLeft}px; font: 10px sans-serif;">
+  return `<div style="display: flex; align-items: center; min-height: 33px; margin-left: ${+marginLeft}px; font: 10px sans-serif;">
     <style>
 
   .${id} {
     display: inline-flex;
     align-items: center;
     margin-right: 1em;
+    color: rgb(180, 180, 180);
   }
 
   .${id}::before {
@@ -154,7 +157,7 @@ function createLegend({
   }
 
   </style>
-  <div>${nameColorMapping.map(value => html`<span class="${id}" style="--color: ${value.color}">${document.createTextNode(value.name)}</span>`)}</div>`;
+  <div>${nameColorMapping.map(value => `<span class="${id}" style="--color: ${value.color}">${value.name}</span>`).join("")}</div>`;
 }
 
 const xScale = d3.scaleLinear().domain([-40, 40]);

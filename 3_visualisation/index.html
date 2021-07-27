@@ -102,17 +102,17 @@
 
       #attributepane {
         display: none;	
-        position:absolute;
+        position: absolute;
         max-height:300px;
-        bottom:0;
-        top:70px;
+        bottom:20px;
+        /* top:70px; */
         left:20px;
         width: 240px;
         margin: 0;
         word-wrap: break-word;
         background-color:rgba(248, 248, 248, 0.7);
         /* border-left: 1px solid #ccc; */
-        padding: 0px 18px 0px 18px;	
+        padding: 0px 18px 18px 18px;	
         z-index: 1;
       }
       #attributepane #attributetext {
@@ -131,6 +131,11 @@
         font-weight:bold;
       }
 
+      #legend {
+        margin: 5px 0 5px 20px;
+        color: rgb(180, 180, 180);
+      }
+
     </style>
   </head>
   <body>
@@ -147,6 +152,8 @@
         <a id="collectionCategory" href="#">Collection Category</a> 
       </div>
     </div>
+
+    <div id="legend"></div>
 
     <div id="chart-container">
       <div id="chart"></div>

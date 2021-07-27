@@ -43,7 +43,9 @@ streamingLoaderWorker.onmessage = ({
     // compute the fill color for each datapoint
     const typeFill = d =>
       webglColor(typeColorScale(hashCode(d.type) % 10));
-    const yearFill = d => webglColor(yearColorScale(d.year));
+    const collectionCategoryFill = d =>
+      webglColor(typeColorScale(hashCode(d.collection_category) % 20));
+    // const yearFill = d => webglColor(yearColorScale(d.year));
 
     const fillColor = fc.webglFillColor().value(typeFill).data(data);
     pointSeries.decorate(program => fillColor(program));
@@ -53,7 +55,7 @@ streamingLoaderWorker.onmessage = ({
       el.addEventListener("click", () => {
         iterateElements(".controls a", el2 => el2.classList.remove("active"));
         el.classList.add("active");
-        fillColor.value(el.id === "type" ? typeFill : yearFill);
+        fillColor.value(el.id === "type" ? typeFill : collectionCategoryFill);
         redraw();
       });
     });

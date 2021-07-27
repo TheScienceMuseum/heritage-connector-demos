@@ -9,6 +9,11 @@
     <!-- <script src="//unpkg.com/d3fc@14.2.3/build/d3fc.js"></script> -->
     <script src="./d3fc.js"></script>
     <script src="//unpkg.com/d3-svg-annotation@2.5.1/indexRollup.js"></script>
+    <script>
+      function closeAttributePane() {
+        document.getElementById("attributepane").style.display = "none";
+      }
+    </script>
     <style>
       .annotation-note-bg {
         fill-opacity: 0.8;
@@ -112,7 +117,7 @@
         word-wrap: break-word;
         background-color:rgba(248, 248, 248, 0.7);
         /* border-left: 1px solid #ccc; */
-        padding: 0px 18px 18px 18px;	
+        padding: 9px 18px 18px 18px;	
         z-index: 1;
       }
       #attributepane #attributetext {
@@ -161,6 +166,7 @@
     </div>
 
     <div id="attributepane">
+      <span style="float:right; font-size:0.8em;" onclick="closeAttributePane()">[x]</span>
       <div id="attributeheadertext"></div>
       <div id="attributetext"></div>
     </div>

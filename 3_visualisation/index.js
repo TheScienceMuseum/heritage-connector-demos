@@ -75,8 +75,8 @@ const yearColorScale = d3
   .scaleSequential()
   .domain([1850, 2000])
   .interpolator(d3.interpolateRdYlGn);
-const xScale = d3.scaleLinear().domain([-50, 50]);
-const yScale = d3.scaleLinear().domain([-50, 50]);
+const xScale = d3.scaleLinear().domain([-40, 40]);
+const yScale = d3.scaleLinear().domain([-40, 40]);
 const xScaleOriginal = xScale.copy();
 const yScaleOriginal = yScale.copy();
 
@@ -90,7 +90,7 @@ const pointSeries = fc
 
 const zoom = d3
   .zoom()
-  .scaleExtent([0.8, 100])
+  .scaleExtent([1, 100])
   .on("zoom", (event) => {
     // update the scales based on current zoom
     xScale.domain(event.transform.rescaleX(xScaleOriginal).domain());

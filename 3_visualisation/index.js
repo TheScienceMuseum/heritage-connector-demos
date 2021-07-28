@@ -253,6 +253,14 @@ function createAttributePane(closestDatum) {
   
   attributePane.appendChild(attributeHeadertext);
   attributePane.appendChild(attributeText);
+
+  if (currentNumPanes === 0) {
+    // also add a [close all] buttom
+    let closeAllButton = document.createElement("div")
+    closeAllButton.id = "close-all-button";
+    closeAllButton.innerHTML = `<span style="float:right; font-size:0.8em; color:rgb(180, 180, 180)" onclick="closeAllAttributePanes()">[close all]</span>`;
+    attributePane.appendChild(closeAllButton);
+  }
   
   return attributePane
 }

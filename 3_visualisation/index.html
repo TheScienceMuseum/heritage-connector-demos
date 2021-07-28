@@ -13,6 +13,9 @@
       function closeAttributePane(paneId) {
         document.getElementById(paneId).remove();
       }
+      function closeAllAttributePanes() {
+        document.querySelectorAll('.attributepane').forEach(e => e.remove());
+      }
     </script>
     <style>
       .annotation-note-bg {
@@ -151,6 +154,13 @@
       #legend {
         margin: 5px 0 5px 20px;
         color: rgb(180, 180, 180);
+      }
+
+      #close-all-button {
+        bottom: 0px;
+        left: 290px;
+        position: absolute;
+        width: max-content;
       }
 
     </style>

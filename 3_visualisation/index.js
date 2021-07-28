@@ -32,7 +32,6 @@ streamingLoaderWorker.onmessage = ({
       ...d,
       x: Number(d.x),
       y: Number(d.y),
-      // year: Number(d.date)
     }))
     .filter(d => d.label);
   data = data.concat(rows);

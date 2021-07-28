@@ -221,13 +221,42 @@ const clicker = fc.clicker()
   const closestDatum = quadtree.find(x, y, radius);
   // if the closest point is within 20 pixels, show the annotation
   if (closestDatum) {
-    document.getElementById("attributepane").style.display = "block"; 
-    document.getElementById("attributeheadertext").innerHTML = "<a href='" + closestDatum.id + "' target='_blank'>" + closestDatum.label + "</a>";
-    document.getElementById("attributetext").innerHTML = "<ul><li><em>Category: </em>" + closestDatum.collection_category + "</li></ul>";
+    document.getElementById("attributepane-container").appendChild(createAttributePane(closestDatum));
   }
   
   redraw();
 });
+
+
+function createAttributePane(closestDatum) {
+  let attributePane = document.createElement("div");
+  let attributeHeadertext = document.createElement("div");
+  let attributeText = document.createElement("div");
+  
+  let currentPanes = document.getElementsByClassName("attributepane");
+  const sum = (accumulator, currentValue) => accumulator + currentValue;
+  let currentPanesTotalHeight = (currentPanes.length > 0) ? Array.from(currentPanes).map(d => d.offsetHeight).reduce(sum) : 0;
+  let currentNumPanes = currentPanes.length;
+  console.log(currentNumPanes);
+  console.log(currentPanesTotalHeight);
+
+  attributePane.classList.add("attributepane");
+  attributePane.id = "pane-" + closestDatum.id
+  attributeHeadertext.classList.add("attributeheadertext");
+  attributeText.classList.add("attributetext");
+
+  attributePane.style.bottom = `${20 + currentPanesTotalHeight + (currentNumPanes)*5}px`;
+  
+  attributePane.innerHTML = `<span style="float:right; font-size:0.8em;" onclick="closeAttributePane('${attributePane.id}')">[x]</span>`
+  attributeHeadertext.innerHTML = "<a href='" + closestDatum.id + "' target='_blank'>" + closestDatum.label + "</a>";
+  attributeText.innerHTML = "<ul><li><em>Category: </em>" + closestDatum.collection_category + "</li></ul>";
+  
+  attributePane.appendChild(attributeHeadertext);
+  attributePane.appendChild(attributeText);
+  
+  return attributePane
+}
+
 
 const annotationSeries = seriesSvgAnnotation()
   .notePadding(15)

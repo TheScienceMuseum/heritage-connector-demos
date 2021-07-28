@@ -10,8 +10,8 @@
     <script src="./d3fc.js"></script>
     <script src="//unpkg.com/d3-svg-annotation@2.5.1/indexRollup.js"></script>
     <script>
-      function closeAttributePane() {
-        document.getElementById("attributepane").style.display = "none";
+      function closeAttributePane(paneId) {
+        document.getElementById(paneId).remove();
       }
     </script>
     <style>
@@ -135,7 +135,51 @@
         font-size:16px;
         font-weight:bold;
       }
+      /* --------------- */
+      #attributepane-container {
+        display: block;	
+        max-height:300px;
+        bottom:20px;
+        left:20px;
+        width: 240px;
+      }
 
+      .attributepane {
+        display: grid;	
+        position: absolute;
+        float: left;
+        max-height:300px;
+        bottom:20px;
+        /* top:70px; */
+        left:20px;
+        width: 240px;
+        margin: 0;
+        word-wrap: break-word;
+        background-color:rgba(248, 248, 248, 0.7);
+        /* border-left: 1px solid #ccc; */
+        padding: 9px 18px 18px 18px;	
+        z-index: 1;
+      }
+      .attributepane .attributetext {
+        height:100%;
+      }
+      
+      .attributepane .attributeheadertext {
+        color: #000;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 5px;
+        border-bottom: 1px dashed #999;
+        padding: 10px 0 10px 0;
+        font-size:1em;
+        font-weight:bold;
+      }
+
+      .attributetext > ul {
+        margin: 2px -10px;
+      }
+      /* --------------- */
+      
       #legend {
         margin: 5px 0 5px 20px;
         color: rgb(180, 180, 180);
@@ -165,11 +209,14 @@
       <div id="loading"><span>loading...</span></div>
     </div>
 
-    <div id="attributepane">
+    <div id="attributepane-container">
+    </div>
+
+    <!-- <div id="attributepane">
       <span style="float:right; font-size:0.8em;" onclick="closeAttributePane()">[x]</span>
       <div id="attributeheadertext"></div>
       <div id="attributetext"></div>
-    </div>
+    </div> -->
     
     <script src="index.js" type="module"></script>
   </body>

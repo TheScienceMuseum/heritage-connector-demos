@@ -42,26 +42,24 @@ streamingLoaderWorker.onmessage = ({
 
     // create legend
     const uniqueTypes = data.map(d => d.type).filter(onlyUnique);
-    const typeColors = uniqueTypes.map(d => typeColorScale(hashCode(d) % 10));
+    const typeColors = uniqueTypes.map(d => categoricalColorScale(hashCode(d) % 10));
     var typeColorMapping = uniqueTypes.map(function (x, i) { 
       return {name: x, color: typeColors[i]}
     });
     
     const uniqueCollectionCategories = data.map(d => d.collection_category).filter(onlyUnique);
-    const collectionCategoryColors = uniqueCollectionCategories.map(d => typeColorScale(hashCode(d) % 20));
+    const collectionCategoryColors = uniqueCollectionCategories.map(d => categoricalColorScale(hashCode(d) % 20));
     var collectionCategoryColorMapping = uniqueCollectionCategories.map(function (x, i) { 
       return {name: x, color: collectionCategoryColors[i]}
     });
     
     document.getElementById("legend").innerHTML = createLegend(typeColorMapping);
-    // console.log(collectionCategoryColorMapping);
 
     // compute the fill color for each datapoint
     const typeFill = d =>
-      webglColor(typeColorScale(hashCode(d.type) % 10));
+      webglColor(categoricalColorScale(hashCode(d.type) % 10));
     const collectionCategoryFill = d =>
-      webglColor(typeColorScale(hashCode(d.collection_category) % 20));
-    // const yearFill = d => webglColor(yearColorScale(d.year));
+      webglColor(categoricalColorScale(hashCode(d.collection_category) % 20));
 
     const fillColor = fc.webglFillColor().value(typeFill).data(data);
     pointSeries.decorate(program => fillColor(program));
@@ -90,7 +88,7 @@ streamingLoaderWorker.onmessage = ({
 };
 streamingLoaderWorker.postMessage("visualisation_data_n_neighbours_10.tsv");
 
-const typeColorScale = d3.scaleOrdinal(d3.schemeCategory10);
+const categoricalColorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
 function entity(character) {
   return `&#${character.charCodeAt(0).toString()};`;
@@ -160,8 +158,8 @@ function createLegend(
   <div>${nameColorMapping.map(value => `<span class="${id}" style="--color: ${value.color}">${value.name}</span>`).join("")}</div>`;
 }
 
-const xScale = d3.scaleLinear().domain([-40, 40]);
-const yScale = d3.scaleLinear().domain([-40, 40]);
+const xScale = d3.scaleLinear().domain([-35, 35]);
+const yScale = d3.scaleLinear().domain([-35, 35]);
 const xScaleOriginal = xScale.copy();
 const yScaleOriginal = yScale.copy();
 
@@ -206,8 +204,6 @@ const pointer = fc.pointer()
   // if the closest point is within 20 pixels, show the annotation
   if (closestDatum) {
     annotations[0] = createAnnotationData(closestDatum);
-    // document.getElementById("attributeheadertext").innerText = closestDatum.title;
-    // document.getElementById("attributetext").innerHTML = "<ul><li><em>Date: </em>" + closestDatum.date + "</li> <li><em>Language: </em>" + closestDatum.language + "</li> <li><em>Author: </em>" + closestDatum.first_author_name + "</li></ul>";
   }
 
   redraw();
@@ -217,9 +213,7 @@ const clicker = fc.clicker()
 .on("click", ([coord]) => {
   if (!coord || !quadtree) {
     return;
-  }
-  console.log("click!")
-  
+  }  
 
   // find the closes datapoint to the pointer
   const x = xScale.invert(coord.x);

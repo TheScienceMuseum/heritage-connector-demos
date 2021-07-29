@@ -233,19 +233,12 @@ function createAttributePane(closestDatum) {
   let attributeHeadertext = document.createElement("div");
   let attributeText = document.createElement("div");
   
-  let currentPanes = document.getElementsByClassName("attributepane");
-  const sum = (accumulator, currentValue) => accumulator + currentValue;
-  let currentPanesTotalHeight = (currentPanes.length > 0) ? Array.from(currentPanes).map(d => d.offsetHeight).reduce(sum) : 0;
-  let currentNumPanes = currentPanes.length;
-  console.log(currentNumPanes);
-  console.log(currentPanesTotalHeight);
+  let currentNumPanes = document.getElementsByClassName("attributepane").length;
 
   attributePane.classList.add("attributepane");
   attributePane.id = "pane-" + closestDatum.id
   attributeHeadertext.classList.add("attributeheadertext");
   attributeText.classList.add("attributetext");
-
-  attributePane.style.bottom = `${20 + currentPanesTotalHeight + (currentNumPanes)*5}px`;
   
   attributePane.innerHTML = `<span style="float:right; font-size:0.8em;" onclick="closeAttributePane('${attributePane.id}')">[x]</span>`
   attributeHeadertext.innerHTML = "<a href='" + closestDatum.id + "' target='_blank'>" + closestDatum.label + "</a>";

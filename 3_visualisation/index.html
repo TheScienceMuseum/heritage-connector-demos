@@ -110,26 +110,28 @@
       }
 
       #attributepane-container {
-        display: block;	
-        max-height:300px;
-        bottom:20px;
-        left:20px;
-        width: 240px;
+        float:left; 
+        height:100%; 
+        width:400px;
+        background-color: transparent !important;
+        overflow-y: scroll;
+        /* display: none; */
+        pointer-events: none;
+      }
+
+      #attributepane-container > div {
+        pointer-events: all;
       }
 
       .attributepane {
         display: grid;	
-        position: absolute;
         float: left;
         max-height:300px;
-        bottom:20px;
-        /* top:70px; */
         left:20px;
         width: 240px;
-        margin: 0;
+        margin: 3px 15px;
         word-wrap: break-word;
         background-color:rgba(248, 248, 248, 0.7);
-        /* border-left: 1px solid #ccc; */
         padding: 9px 18px 18px 18px;	
         z-index: 1;
       }
@@ -158,8 +160,8 @@
       }
 
       #close-all-button {
-        bottom: 0px;
-        left: 290px;
+        top: 5px;
+        left: 300px;
         position: absolute;
         width: max-content;
       }
@@ -186,10 +188,9 @@
     <div id="chart-container">
       <div id="chart"></div>
       <div id="loading"><span>loading...</span></div>
+      <div id="attributepane-container"></div>
     </div>
 
-    <div id="attributepane-container">
-    </div>
     
     <script src="index.js" type="module"></script>
   </body>

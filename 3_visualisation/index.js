@@ -22,6 +22,8 @@ const predicatesToIgnoreInAttributePane = [
   "HC:database",
   "RDFS:label",
   "XSD:description",
+  "FOAF:givenName",
+  "FOAF:familyName",
   "WDT:P646",
   "WDT:P18",
   "WDT:P217", // inventory number

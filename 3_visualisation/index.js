@@ -7,6 +7,47 @@ import {
   iterateElements
 } from "./util.js";
 
+// SET ME TO FALSE BEFORE PUSHING
+const debug = false;
+
+if (debug) {
+  // local debugging
+  var api_url = 'http://localhost:8010';
+} else {
+  // remote: deployed
+  var api_url = 'https://d0rgkq.deta.dev';
+}
+
+const predicatesToIgnoreInAttributePane = [
+  "HC:database",
+  "RDFS:label",
+  "XSD:description",
+  "WDT:P646",
+  "WDT:P18",
+  "WDT:P217", // inventory number
+  "WDT:P729", // service entry
+  "WDT:P2802", // fleet or registration number
+  "WDT:P2598", // serial number
+  "WDT:P2598", // serial number
+  // External IDs
+  "WDT:3074",
+  "WDT:P214",
+  "WDT:P244",
+  "WDT:P646",
+  "WDT:P2067",
+  "WDT:P2741",
+  "WDT:P6764",
+  "WDT:P2703",
+  "WDT:P4326",
+  "WDT:P4438",
+  "WDT:P8565",
+  "WDT:P1711",
+  "WDT:P1816",
+  "WDT:P9144",
+  "WDT:P1367",
+  // TODO: add more to here from list, and comment what each of them are
+]
+
 let data = [];
 let quadtree;
 
@@ -242,7 +283,7 @@ function createAttributePane(closestDatum) {
   
   attributePane.innerHTML = `<span style="float:right; font-size:0.8em;" onclick="closeAttributePane('${attributePane.id}')">[x]</span>`
   attributeHeadertext.innerHTML = "<a href='" + closestDatum.id + "' target='_blank'>" + closestDatum.label + "</a>";
-  attributeText.innerHTML = "<ul><li><em>Category: </em>" + closestDatum.collection_category + "</li></ul>";
+  updateAttributePaneDetailsHTML(closestDatum);
   
   attributePane.appendChild(attributeHeadertext);
   attributePane.appendChild(attributeText);
@@ -256,6 +297,113 @@ function createAttributePane(closestDatum) {
   }
   
   return attributePane
+}
+
+function updateAttributePaneDetailsHTML(closestDatum) {
+  // update attribute pane inner HTML with connections
+  getConnections(closestDatum.id).then(data => {
+    const connectionsTo = data[closestDatum.id].to;
+    const connectionsFrom = data[closestDatum.id].from;
+    var connectionToFound = false;
+    var connectionFromFound = false;
+    
+    let html = "(" + closestDatum.collection_category + ")"
+    let tempHTML = html + "</br> connections loading..."
+
+    document.getElementById(`pane-${closestDatum.id}`).getElementsByClassName('attributetext')[0].innerHTML = tempHTML;
+    
+    if (connectionsTo.length > 0) {
+      var connectionsToHTMLList = "<em>connections to this item:</em> <ul>";
+      connectionsTo.forEach(c => {
+        let abbrevPredicate = abbreviateURI(c.predicate.value);
+        if (!predicatesToIgnoreInAttributePane.includes(abbrevPredicate)) {
+          connectionToFound = true;
+          if (c.subjectLabel) {
+            connectionsToHTMLList += `<li><a href='${c.subject.value}' target='_blank'>${c.subjectLabel.value}</a></li> → ${abbrevPredicate} → this`;
+          } else if (c.subject.type === "uri") {
+            connectionsToHTMLList += `<li><a href='${c.subject.value}' target='_blank'>${abbreviateURI(c.subject.value)}</a></li> → ${abbrevPredicate} → this`;
+          } else {
+            connectionsToHTMLList += `<li>${c.subject.value} → ${abbrevPredicate} → this</li>`;
+          }
+        }
+      })
+      connectionsToHTMLList += "</ul>";
+    }
+    
+    if (connectionsFrom.length > 0) {
+      var connectionsFromHTMLList = "<em>connections from this item:</em> <ul>";
+      connectionsFrom.forEach(c => {
+        let abbrevPredicate = abbreviateURI(c.predicate.value);
+        if (!predicatesToIgnoreInAttributePane.includes(abbrevPredicate)) {
+          connectionFromFound = true;
+          if (c.objectLabel) {
+            connectionsFromHTMLList += `<li>this → ${abbrevPredicate} → <a href='${c.object.value}' target='_blank'>${c.objectLabel.value} </a></li>`;
+          } else if (c.object.type === "uri") {
+            connectionsFromHTMLList += `<li>this → ${abbrevPredicate} → <a href='${c.object.value}' target='_blank'>${abbreviateURI(c.object.value)}</a></li>`;
+          } else {
+            connectionsFromHTMLList += `<li>this → ${abbrevPredicate} → ${c.object.value}</li>`;
+          }
+        }
+      })
+      connectionsFromHTMLList += "</ul>";
+    }
+
+    if (connectionToFound | connectionFromFound) {
+      html += "</br> <details> <summary>show connections</summary>";
+      if (connectionToFound) {html += `<p>${connectionsToHTMLList}</p>`};
+      if (connectionFromFound) {html += `<p>${connectionsFromHTMLList}</p>`};
+      html += "</details>";
+    }
+
+    document.getElementById(`pane-${closestDatum.id}`).getElementsByClassName('attributetext')[0].innerHTML = html;
+  })
+}
+
+async function getConnections(url) {
+  // get connections in graph for entity with url `url`.
+
+  var data = {
+    "entities": [url],
+    "labels": true
+  }
+
+  const response = await fetch(api_url.concat('/connections'), {
+      method: 'POST',
+      mode: (debug) ? 'same-origin' : 'cors',
+      headers: {'Content-Type': 'application/json'},      
+      body: JSON.stringify(data)
+  })
+
+  return response.json();
+}
+
+function abbreviateURI(uri) {
+  for (const [key, value] of Object.entries(predicateAbbreviationMapping)) {
+      if (uri.startsWith(key)) {
+          return value + ':' + uri.replace(key, '')
+      }
+  }
+
+  return uri
+}
+
+const predicateAbbreviationMapping = {
+  'http://www.w3.org/2000/01/rdf-schema#': 'RDFS',
+  'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'RDF',
+  'http://www.w3.org/2004/02/skos/core#': 'SKOS',
+  'http://www.w3.org/2001/XMLSchema#': 'XSD',
+  'http://xmlns.com/foaf/0.1/': 'FOAF',
+  'http://www.w3.org/2002/07/owl#': 'OWL',
+  'http://www.w3.org/ns/prov#': 'PROV',
+  'https://schema.org/': 'SDO',
+  'http://www.wikidata.org/entity/': 'WD',
+  'http://www.wikidata.org/prop/direct/': 'WDT',
+  'http://www.heritageconnector.org/RDF/': 'HC',
+  'https://collection.sciencemuseumgroup.org.uk/people/': 'SMGP',
+  'https://collection.sciencemuseumgroup.org.uk/objects/': 'SMGO',
+  'https://collection.sciencemuseumgroup.org.uk/documents/': 'SMGD',
+  'https://blog.sciencemuseum.org.uk/': 'SMGBLOG',
+  'http://journal.sciencemuseum.ac.uk/browse/': 'SMGJOURNAL',
 }
 
 

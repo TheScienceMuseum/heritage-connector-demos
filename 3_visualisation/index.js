@@ -45,6 +45,7 @@ const predicatesToIgnoreInAttributePane = [
   "WDT:P1816",
   "WDT:P9144",
   "WDT:P1367",
+  "WDT:P7818",
   // TODO: add more to here from list, and comment what each of them are
 ]
 

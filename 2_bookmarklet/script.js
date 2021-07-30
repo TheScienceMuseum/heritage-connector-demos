@@ -11,7 +11,7 @@ var numSimilarItemsToDisplay = 20;
 if (debug) {
     // local debugging
     var api_url = 'http://localhost:8010';
-    var pageURI = 'https://collection.sciencemuseumgroup.org.uk/objects/co33';
+    var pageURI = 'https://collection.sciencemuseumgroup.org.uk/objects/co8415035';
 } else {
     // remote: deployed
     var api_url = 'https://d0rgkq.deta.dev';
@@ -78,7 +78,6 @@ function show_annotations(uri) {
     getPredicateObjectFromAPI(uri)
         .then(data => {
             const gbPredicate = groupBy(data, item => item.predicate.value, abbreviateURI)
-            console.log(gbPredicate)
             var html = '';
 
             // TODO: iterate through list of manually ordered predicates instead, so we can split them
@@ -123,28 +122,73 @@ function show_annotations(uri) {
             // in JS to round to 2 d.p. we have to multiply by 100, round to integer, then divide by 100!
             const neighbourURIs = neighbours.filter(x => x.startsWith("http"));
             getLabelsFromAPI(neighbourURIs).then(labelMapping => {
-                var html = '<h2>' + numSimilarItemsToDisplay + ' most similar items (similarity)</h2> <ul>';
-
-                data[uri].forEach(item => {
-                    html += '<li>';
+                // ** THIS CODE DISPLAYS A LIST OF MOST SIMILAR ITEMS, NOT GROUPED IN ANY WAY **
+                // var html = '<h2>' + numSimilarItemsToDisplay + ' most similar items (similarity)</h2> <ul>';
+                
+                // data[uri].forEach(item => {
+                    //     html += '<li>';
                     
-                    var similarity = Math.round((1-item[1])*100)/100
+                    //     var similarity = Math.round((1-item[1])*100)/100
+                    
+                    //     if (labelMapping[item[0]]) {
+                        //         // there is a label
+                        //         // console.log(item[0], labelMapping[item[0]], item[1])
+                        //         html += '<a href="' + item[0] + '">' + labelMapping[item[0]] + ' [' + abbreviateURI(item[0]) + ']</a> (' + similarity + ')'
+                        //     } else {
+                            //         // console.log("no label", item[0], item[1])
+                            //         html += '<a href="' + item[0] + '">' + abbreviateURI(item[0]) + '</a> [' + similarity + ']'
+                            //     }
+                            //     html += '</li>'
+                            // })
+                            // html += '</ul> <hr>'
+                            // document.getElementById("pidannotate").innerHTML += html
+                
+                // *****************************************************************************
 
-                    if (labelMapping[item[0]]) {
-                        // there is a label
-                        // console.log(item[0], labelMapping[item[0]], item[1])
-                        html += '<a href="' + item[0] + '">' + labelMapping[item[0]] + ' [' + abbreviateURI(item[0]) + ']</a> (' + similarity + ')'
+                // ** THIS CODE DISPLAYS A LIST OF MOST SIMILAR ITEMS GROUPED BY TYPE (BASED ON RDF PREFIX)**
+                data[uri].forEach((d) => {
+                    if (d[0].startsWith('http')) {
+                        d.push(abbreviateURI(d[0]).split(':')[0]);
                     } else {
-                        // console.log("no label", item[0], item[1])
-                        html += '<a href="' + item[0] + '">' + abbreviateURI(item[0]) + '</a> [' + similarity + ']'
+                        d.push('LITERAL');
                     }
-                    html += '</li>'
                 })
-                html += '</ul> <hr>'
+                var neighboursGroupedByPrefix = groupBy(data[uri], item => item[2]);
+                console.log(neighboursGroupedByPrefix);
+                var html = '<h2>' + numSimilarItemsToDisplay + ' most similar items by type (similarity)</h2> <ul>';
+                neighboursGroupedByPrefix.forEach((neighbourList, prefix) => {
+                    html += `<h3>${prefixToPrettyName[prefix]}</h3>`;
+                    neighbourList.forEach(item => {
+                        html += '<li>'
+                        var similarity = Math.round((1-item[1])*100)/100
+                        
+                        if (labelMapping[item[0]]) {
+                            // there is a label
+                            // console.log(item[0], labelMapping[item[0]], item[1])
+                            html += '<a href="' + item[0] + '">' + labelMapping[item[0]] + ' [' + abbreviateURI(item[0]) + ']</a> (' + similarity + ')'
+                        } else {
+                            // console.log("no label", item[0], item[1])
+                            html += '<a href="' + item[0] + '">' + abbreviateURI(item[0]) + '</a> [' + similarity + ']'
+                        }
+                        html += '</li>';
+                    })
+                    // html += '</br>';
+                })
+                html += '</ul> <hr>';
                 document.getElementById("pidannotate").innerHTML += html
             });
         })
 
+}
+
+const prefixToPrettyName = {
+    "SMGBLOG": "SMG Blog",
+    "SMGJOURNAL": "SMG Journal",
+    "SMGP": "SMG Person/Organisation",
+    "SMGO": "SMG Object",
+    "SMGD": "SMG Archival Document",
+    "WD": "Wikidata Entity",
+    "LITERAL": "Literal",
 }
 
 

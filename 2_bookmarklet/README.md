@@ -4,7 +4,7 @@ A bookmarklet to show connections from one page its direct connections in the gr
 
 We give thanks to [Roderic Page](https://github.com/rdmpage) for his work for the [TANC Heritage PIDs](https://tanc-ahrc.github.io/HeritagePIDs/) project, which inspired the idea and the code for this.
 
-![Screenshot of working bookmarklet](screenshot.png)
+![Screenshot of working bookmarklet](screenshot.gif)
 
 ## Installation:
 

@@ -18,6 +18,8 @@ if (debug) {
   var api_url = 'https://d0rgkq.deta.dev';
 }
 
+const maxLegendItems = 10;
+
 const predicatesToIgnoreInAttributePane = [
   "HC:database",
   "RDFS:label",
@@ -113,7 +115,7 @@ streamingLoaderWorker.onmessage = ({
         iterateElements(".controls a", el2 => el2.classList.remove("active"));
         el.classList.add("active");
         fillColor.value(el.id === "type" ? typeFill : collectionCategoryFill);
-        document.getElementById("legend").innerHTML = (el.id == "type") ? createLegend(typeColorMapping) : createLegend(collectionCategoryColorMapping.slice(0,10));
+        document.getElementById("legend").innerHTML = (el.id == "type") ? createLegend(typeColorMapping) : createLegend(collectionCategoryColorMapping, maxLegendItems);
         redraw();
       });
     });
@@ -139,45 +141,22 @@ function entity(character) {
 
 function createLegend(
   nameColorMapping,
-  columns = null,
+  numLegendItems = null,
   swatchSize = 15,
   swatchWidth = swatchSize,
   swatchHeight = swatchSize,
   marginLeft = 0
 ) {
   const id = "legend-element";
+  const numExcessItems = nameColorMapping.length - numLegendItems;
 
-  if (columns !== null) return `<div style="display: flex; align-items: center; margin-left: ${+marginLeft}px; min-height: 33px; font: 10px sans-serif;">
-    <style>
-      .${id}-item {
-        break-inside: avoid;
-        display: flex;
-        align-items: center;
-        padding-bottom: 1px;
-      }
-
-      .${id}-label {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: calc(100% - ${+swatchWidth}px - 0.5em);
-      }
-
-      .${id}-swatch {
-        width: ${+swatchWidth}px;
-        height: ${+swatchHeight}px;
-        margin: 0 0.5em 0 0;
-      }
-    </style>
-    <div style="width: 100%; columns: ${columns};">${nameColorMapping.map(value => {
-      const label = value.name;
-      return `<div class="${id}-item">
-        <div class="${id}-swatch" style="background:${value.color};"></div>
-        <div class="${id}-label" title="${label.replace(/["&]/g, entity)}">${label}</div>
-      </div>`;
-    })}
-    </div>
-  </div>`;
+  if (numLegendItems !== null) {
+    var nameColorMappingSliced = nameColorMapping.slice(0,numLegendItems);
+    var overflowIndicator = numExcessItems > 0 ? `(+ ${numExcessItems} more categories)` : "";
+  } else {
+    var nameColorMappingSliced = nameColorMapping;
+    var overflowIndicator = "";
+  }
 
   return `<div style="display: flex; align-items: center; min-height: 33px; margin-left: ${+marginLeft}px; font: 10px sans-serif;">
     <style>
@@ -197,8 +176,17 @@ function createLegend(
     background: var(--color);
   }
 
+  #overflow::before {
+    margin-right: 0px;
+    width: 0;
+  }
+
+  #overflow {
+    font-size: 11px;
+  }
+
   </style>
-  <div>${nameColorMapping.map(value => `<span class="${id}" style="--color: ${value.color}">${value.name}</span>`).join("")}</div>`;
+  <div>${nameColorMappingSliced.map(value => `<span class="${id}" style="--color: ${value.color}">${value.name}</span>`).join("")}<span class="${id}" id="overflow">${overflowIndicator}</span></div></div>`;
 }
 
 const xScale = d3.scaleLinear().domain([-35, 35]);

@@ -83,7 +83,7 @@ streamingLoaderWorker.onmessage = ({
   data = data.concat(rows);
 
   if (finished) {
-    document.getElementById("loading").style.display = "none";
+    document.getElementById("loadingIndicator").innerHTML = "<a class=\"button\" onclick=\"closeLoadingPane()\">Explore</a>";
 
     // create legend
     const uniqueTypes = data.map(d => d.type).filter(onlyUnique);

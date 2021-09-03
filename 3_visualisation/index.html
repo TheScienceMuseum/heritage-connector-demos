@@ -28,6 +28,9 @@
       function closeAllAttributePanes() {
         document.querySelectorAll('.attributepane').forEach(e => e.remove());
       }
+      function closeLoadingPane() {
+        document.getElementById("loading").style.display = "none";
+      }
     </script>
     <style>
       .annotation-note-bg {
@@ -86,17 +89,37 @@
       }
 
       #loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        /* background-color: rgba(255, 255, 255, 0.7) !important; */
-        color: #ffffff;
+        /* display: flex; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        margin: auto; 
+        padding: 10px 25px;
+        height: 550px;
+        width: 800px;
+        color: rgb(20, 20, 20);
       }
 
-      #loading span {
-        flex: 1;
+      #loadingIndicatorContainer {
+        position: absolute; 
+        bottom: 20px;
+        right: 20px;
+      }
+
+      .button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
         text-align: center;
-        font-size: 5em;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer
+      }
+
+      .button:hover {
+        text-decoration: none;
       }
 
       #chart d3fc-group {
@@ -198,7 +221,27 @@
 
     <div id="chart-container">
       <div id="chart"></div>
-      <div id="loading"><span>loading...</span></div>
+      <div id="loading">
+        <h2>This is a visualisation of a knowledge graph created from the Science Museum Group's online collection, blog and academic journal using machine learning. It's part of the <a href="https://www.sciencemuseumgroup.org.uk/project/heritage-connector/" target="_blank">Heritage Connector project</a>.</h2>
+        <h2>How to navigate:</h2>
+        <ul>
+          <li>Drag to pan, scroll to zoom.</li>
+          <li>Click a dot to show more information about that item. You can keep multiple information panes open at once.</li>
+          <li>You can view the visualisation coloured by the Science Museum's collection categories by clicking <span style="color:rgb(120, 100, 255)">Collection Category</span> at the top right.</li>
+        </ul>
+        <h2>How to read:</h2>
+        This plot has been produced by projecting 800-dimensional data to 2 dimensions using an algorithm called UMAP. As a result:
+        <ul>
+          <li>Larger distances (e.g. between clusters) don't mean anything.</li>
+          <li>Similarly, sizes of clusters don't mean anything.</li>
+          <li>This is <em>one of many possible representations</em> of the higher dimensional space, so it should not be treated as an objective view of the data.</li>
+        </ul>
+        For more information on how to read UMAP plots, check out <a href="https://pair-code.github.io/understanding-umap/" target="_blank">this article</a>.
+
+        <div id="loadingIndicatorContainer">
+          <span id="loadingIndicator">loading...</span>
+        </div>
+      </div>
       <div id="attributepane-container"></div>
     </div>
 

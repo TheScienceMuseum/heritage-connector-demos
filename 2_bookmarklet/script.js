@@ -18,7 +18,7 @@ if (debug) {
     var pageURI = window.location.href
 }
 
-var sheetsReviewURL = 'https://docs.google.com/spreadsheets/d/1nc10D5UwBDrEKXOkSJ440EjsvWjqqw5vq-1cG5cM_fw/edit#gid=0'
+var sheetsReviewURL = 'https://docs.google.com/spreadsheets/d/1ZvhK_ffANEBCmtJ5q1wvHGqazi597wMaNTXTqEZgl-k/edit#gid=0'
 
 pageURI = normalizeCollectionURL(pageURI);
 openSidebar();

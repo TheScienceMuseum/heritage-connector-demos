@@ -205,7 +205,7 @@ function openSidebar() {
 
     // Title
     html += '<h1>' + bookmarkletTitle + '</h1>';
-    html += '<a style="margin: 0 4px" href=' + sheetsReviewURL + '" target="_blank">' + 'Log interesting/incorrect connections (HC team)</a>'
+    html += '<a style="margin: 0 4px" href=' + sheetsReviewURL + '" target="_blank">' + 'Log interesting/incorrect connections (HC curators)</a>'
     html += '<hr>'
     document.getElementById('pidannotate').innerHTML = html;
 

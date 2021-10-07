@@ -2,3 +2,7 @@
 __pycache__
 **.pkl
 .DS_Store
+# built d3fc for local development
+**/d3fc/
+# data for multi-collection visualisation; too large for github
+4_visualisation/*.tsv

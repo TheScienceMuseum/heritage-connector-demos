@@ -10,6 +10,8 @@ import {
 // SET ME TO FALSE BEFORE PUSHING
 const debug = false;
 
+const data_path = "visualisation_data_n_neighbours_10.tsv"
+
 if (debug) {
   // local debugging
   var api_url = 'http://localhost:8010';
@@ -131,7 +133,7 @@ streamingLoaderWorker.onmessage = ({
 
   redraw();
 };
-streamingLoaderWorker.postMessage("visualisation_data_n_neighbours_10.tsv");
+streamingLoaderWorker.postMessage(data_path);
 
 const categoricalColorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -395,6 +397,11 @@ const predicateAbbreviationMapping = {
   'https://collection.sciencemuseumgroup.org.uk/documents/': 'SMGD',
   'https://blog.sciencemuseum.org.uk/': 'SMGBLOG',
   'http://journal.sciencemuseum.ac.uk/browse/': 'SMGJOURNAL',
+  'https://api.vam.ac.uk/v2/objects/search?id_organisation=': 'VAMORG',
+  'https://api.vam.ac.uk/v2/objects/search?id_person=': 'VAMPERSON',
+  'http://collections.vam.ac.uk/item/': 'VAMOBJECT',
+  'https://api.vam.ac.uk/v2/objects/search?id_material=': "VAMMATERIAL",
+  'https://api.vam.ac.uk/v2/objects/search?id_technique=': "VAMTECHNIQUE",
 }
 
 

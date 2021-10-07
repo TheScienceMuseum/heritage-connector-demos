@@ -99,8 +99,10 @@ function show_annotations(uri) {
                             if (obj.object.type == 'uri') {
                                 if (obj.objectLabel) {
                                     html += '<a href="' + obj.object.value + '">' + obj.objectLabel.value + ' [' + abbreviateURI(obj.object.value) + ']' + '</a>'
+                                    html += ' <a id="" target="_blank" href="' + getConnectionsPageForURL(obj.object.value) + '"></a>'
                                 } else {
                                     html += '<a href="' + obj.object.value + '">' + abbreviateURI(obj.object.value) + '</a>'
+                                    html += ' <a id="" target="_blank" href="' + getConnectionsPageForURL(obj.object.value) + '"></a>'
                                 }
                             } else {
                                 html += obj.object.value
@@ -166,9 +168,11 @@ function show_annotations(uri) {
                             // there is a label
                             // console.log(item[0], labelMapping[item[0]], item[1])
                             html += '<a href="' + item[0] + '">' + labelMapping[item[0]] + ' [' + abbreviateURI(item[0]) + ']</a> (' + similarity + ')'
+                            html += ' <a id="" target="_blank" href="' + getConnectionsPageForURL(item[0]) + '"></a>'
                         } else {
                             // console.log("no label", item[0], item[1])
                             html += '<a href="' + item[0] + '">' + abbreviateURI(item[0]) + '</a> [' + similarity + ']'
+                            html += ' <a id="" target="_blank" href="' + getConnectionsPageForURL(item[0]) + '"></a>'
                         }
                         html += '</li>';
                     })
@@ -189,6 +193,12 @@ const prefixToPrettyName = {
     "SMGD": "SMG Archival Document",
     "WD": "Wikidata Entity",
     "LITERAL": "Literal",
+}
+
+function getConnectionsPageForURL(url) {
+    // get the API's /view_connections page for a URL
+
+    return `${api_url}/view_connections?entity=${url}`
 }
 
 
@@ -435,6 +445,12 @@ var styles = `
 //     border-width: 0 1px;
 //     padding: 10px 0; 
 // }
+
+a[target=_blank]:after {
+    content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+    margin: 0 3px 0 5px;
+  }
+
 `
 
 // Add the styles above to a <style> tag before the first <script> tag in the body

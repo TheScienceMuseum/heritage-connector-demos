@@ -12,7 +12,7 @@ If you've never used a bookmarklet before, it might be worth running through [th
 
 1. Copy the below text. This is the code which runs the bookmarklet.
 ```
-javascript:(function(a){%20a=document.createElement('script');a.type='text/javascript';a.src='//cdn.jsdelivr.net/gh/TheScienceMuseum/heritage-connector-demos@ad11c7b/2_bookmarklet/script.js';document.getElementsByTagName('body')[0].appendChild(a);})();
+javascript:(function(a){%20a=document.createElement('script');a.type='text/javascript';a.src='//cdn.jsdelivr.net/gh/TheScienceMuseum/heritage-connector-demos@5e57a1f/2_bookmarklet/script.js';document.getElementsByTagName('body')[0].appendChild(a);})();
 ```
 2. Add a new bookmark to your browser and call it whatever you want. Paste the text you copied into the 'URL' field.
 

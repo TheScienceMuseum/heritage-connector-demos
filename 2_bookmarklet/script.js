@@ -470,6 +470,9 @@ a[target=_blank]:after {
     margin: 0 3px 0 5px;
   }
 
+hr:after {
+    content:none;
+}
 `
 
 // Add the styles above to a <style> tag before the first <script> tag in the body

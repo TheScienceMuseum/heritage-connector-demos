@@ -405,6 +405,7 @@ var styles = `
 
 .pidannotate hr {
     margin: 10px auto; 
+    border-bottom: 1px solid #ccc;
 }
 
 .pidannotate h1 {
@@ -470,7 +471,7 @@ a[target=_blank]:after {
     margin: 0 3px 0 5px;
   }
 
-hr:after {
+.pidannotate hr:after {
     content:none;
 }
 `

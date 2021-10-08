@@ -11,7 +11,7 @@ var numSimilarItemsToDisplay = 20;
 if (debug) {
     // local debugging
     var api_url = 'http://localhost:8010';
-    var pageURI = 'https://collection.sciencemuseumgroup.org.uk/objects/co8415035';
+    var pageURI = 'http://collections.vam.ac.uk/item/O1165404/poster/';
 } else {
     // remote: deployed
     var api_url = 'https://d0rgkq.deta.dev';
@@ -20,7 +20,8 @@ if (debug) {
 
 var sheetsReviewURL = 'https://docs.google.com/spreadsheets/d/1nc10D5UwBDrEKXOkSJ440EjsvWjqqw5vq-1cG5cM_fw/edit#gid=0'
 
-pageURI = normalizeCollectionURL(pageURI);
+pageURI = normalizeSMGCollectionURL(pageURI);
+pageURI = normalizeVANDACollectionURL(pageURI);
 openSidebar();
 show_annotations(pageURI);
 
@@ -310,14 +311,32 @@ const predicateAbbreviationMapping = {
     'https://collection.sciencemuseumgroup.org.uk/documents/': 'SMGD',
     'https://blog.sciencemuseum.org.uk/': 'SMGBLOG',
     'http://journal.sciencemuseum.ac.uk/browse/': 'SMGJOURNAL',
+    'https://api.vam.ac.uk/v2/objects/search?id_organisation=': 'VAMORG',
+    'https://api.vam.ac.uk/v2/objects/search?id_person=': 'VAMPERSON',
+    'http://collections.vam.ac.uk/item/': 'VAMOBJECT',
+    'https://api.vam.ac.uk/v2/objects/search?id_material=': "VAMMATERIAL",
+    'https://api.vam.ac.uk/v2/objects/search?id_technique=': "VAMTECHNIQUE",  
 }
 
-function normalizeCollectionURL(url) {
+function normalizeSMGCollectionURL(url) {
     // remove anything after cp/co/cd/aa-ID from the collection URL
     // if the URL is not a collection URL then it returns the original URL
     const regex = /https:\/\/(?:collection\.sciencemuseum).(?:\w.+)\/(?:co|cd|cp|aa)(?:\d+)/g
     if ((url.match(regex)) && (url.match(regex).length == 1)) {
         return url.match(regex)[0]
+    } else {
+        return url
+    }
+}
+
+function normalizeVANDACollectionURL(url) {
+    // remove anything after the ID from the collection URL. Also change from https to http.
+    // if the URL is not a collection URL then it returns the original URL.
+    const regex = /http:\/\/collections.vam.ac.uk\/item\/[A-Za-z\d]+/g
+    const httpUrl = url.replace("https", "http")
+
+    if ((httpUrl.match(regex)) && (httpUrl.match(regex).length == 1)) {
+        return httpUrl.match(regex)[0]
     } else {
         return url
     }

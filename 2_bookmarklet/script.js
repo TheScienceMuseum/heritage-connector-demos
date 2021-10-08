@@ -193,6 +193,11 @@ const prefixToPrettyName = {
     "SMGO": "SMG Object",
     "SMGD": "SMG Archival Document",
     "WD": "Wikidata Entity",
+    "VAMORG": "V&A Organisation",
+    "VAMPERSON": "V&A Person",
+    "VAMOBJECT": "V&A Object",
+    "VAMMATERIAL": "V&A Material",
+    "VAMTECHNIQUE": "V&A Technique",
     "LITERAL": "Literal",
 }
 

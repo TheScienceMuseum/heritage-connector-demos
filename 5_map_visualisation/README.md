@@ -1,6 +1,6 @@
 # Heritage Connector Map Visualisation
 
-Visualisation of all Wikidata QIDs in the knowledge graph with latitude and longitude properties, linked to the Metadata Explorer.
+Visualisation of all Wikidata QIDs in the knowledge graph with latitude and longitude properties, linked to the Metadata Explorer with onward links to V&A and Science Museum Group collections, Wikidata, etc.
 
 Because there is a limit on Google Maps of ten layers, each with max 2,000 pins and the total number of pins is 38,576 pins, the pins are split across two maps:
 

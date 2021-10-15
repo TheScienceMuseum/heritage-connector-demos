@@ -1,13 +1,13 @@
 <html>
   <head>
     <meta property="og:title" content="Heritage Connector Knowledge Graph Visualisation">
-    <meta property="og:description" content="Using machine learning to create an interactive map of the Science Museum Group's collection.">
+    <meta property="og:description" content="An interactive map of the Science Museum Group and V&A's collections.">
     <meta property="og:image" content="https://raw.githubusercontent.com/TheScienceMuseum/heritage-connector-demos/main/3_visualisation/screenshot.png">
     <meta property="og:url" content="https://thesciencemuseum.github.io/heritage-connector-demos/3_visualisation/index.html">
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Heritage Connector Knowledge Graph Visualisation">
-    <meta name="twitter:description" content="Using machine learning to create an interactive map of the Science Museum Group's collection.">
+    <meta name="twitter:description" content="An interactive map of the Science Museum Group and V&A's collections.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/TheScienceMuseum/heritage-connector-demos/main/3_visualisation/screenshot.png">
     <meta name="twitter:image:alt" content="Screenshot of Heritage Connector visualisation demo">
 
@@ -95,7 +95,7 @@
         background-color: rgba(255, 255, 255, 0.9) !important;
         margin: auto; 
         padding: 10px 25px;
-        height: 550px;
+        height: 600px;
         width: 800px;
         color: rgb(20, 20, 20);
       }
@@ -222,15 +222,18 @@
     <div id="chart-container">
       <div id="chart"></div>
       <div id="loading">
-        <h2>This is a visualisation of a knowledge graph created from the Science Museum Group's online collection, blog and academic journal using machine learning. It's part of the <a href="https://www.sciencemuseumgroup.org.uk/project/heritage-connector/" target="_blank">Heritage Connector project</a>.</h2>
+        <h2>This is a visualisation of a knowledge graph created from the Science Museum Group's online collections, blog and academic journal and part of the V&A's online collections using machine learning. It's part of the <a href="https://www.sciencemuseumgroup.org.uk/project/heritage-connector/" target="_blank">Heritage Connector project</a>.</h2>
+
+        <p>For more details on the part of the V&A's online collections we processed, <a href="https://github.com/TheScienceMuseum/heritage-connector-demos/blob/main/V%26A_collection.md" target="_blank">consult this readme</a>.</p>
+
         <h2>How to navigate:</h2>
         <ul>
           <li>Drag to pan, scroll to zoom.</li>
           <li>Click a dot to show more information about that item. You can keep multiple information panes open at once.</li>
-          <li>You can view the visualisation coloured by the Science Museum's collection categories by clicking <span style="color:rgb(120, 100, 255)">Collection Category</span> at the top right.</li>
+          <li>You can view the visualisation coloured by the Science Museum Group and V&A's collection categories by clicking <span style="color:rgb(120, 100, 255)">Collection Category</span> at the top right.</li>
         </ul>
         <h2>How to read:</h2>
-        This plot has been produced by projecting 800-dimensional data to 2 dimensions using an algorithm called UMAP. As a result:
+        This plot has been produced by projecting 1200-dimensional data to 2 dimensions using an algorithm called UMAP. As a result:
         <ul>
           <li>Larger distances (e.g. between clusters) don't mean anything.</li>
           <li>Similarly, sizes of clusters don't mean anything.</li>

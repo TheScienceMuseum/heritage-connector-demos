@@ -2,7 +2,7 @@
 
 A bookmarklet to show connections from one page its direct connections in the graph. Meant to be a quick way to prototype future collection website widgets.
 
-We give thanks to [Roderic Page](https://github.com/rdmpage) for his work for the [TANC Heritage PIDs](https://tanc-ahrc.github.io/HeritagePIDs/) project, which inspired the idea and the code for this.
+We thank [Roderic Page](https://github.com/rdmpage) for his work for the [TANC Heritage PIDs](https://tanc-ahrc.github.io/HeritagePIDs/) project, which inspired the idea and the code for this.
 
 ![Screenshot of working bookmarklet](screenshot.gif)
 
@@ -25,4 +25,8 @@ The bookmarklet works on any SMG pages that are in Heritage Connector. These inc
 - the SMG blog: https://blog.sciencemuseum.org.uk/
 - the SMG journal: http://journal.sciencemuseum.ac.uk/
 
-If a page doesn't work, it's likely it was recently added and isn't in the Heritage Connector database yet. If you *know* it's not, please get in contact with [Kalyan Dutia](https://kalyan.link).
+It also works on pages on the V&A collection site specified in [this readme](https://github.com/TheScienceMuseum/heritage-connector-demos/blob/main/V%26A_collection.md).
+
+---
+
+[Kalyan Dutia](https://kalyan.link).

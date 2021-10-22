@@ -10,7 +10,7 @@ import {
 // SET ME TO FALSE BEFORE PUSHING
 const debug = false;
 
-const data_path = "visualisation_data_n_neighbours_10.tsv"
+const data_path = "https://heritageconnector.s3.eu-west-2.amazonaws.com/visualisation/visualisation_data_with_clusters.tsv"
 
 if (debug) {
   // local debugging
@@ -58,9 +58,17 @@ const predicatesToIgnoreInAttributePane = [
 let data = [];
 let quadtree;
 
+function generateClusterLabel(clusterId) {
+  if (clusterId == "-1") {
+    return " (no cluster)"
+  } else {
+    return ` (cluster ${clusterId})`
+  }
+}
+
 const createAnnotationData = datapoint => ({
   note: {
-    label: datapoint.collection_category,
+    label: datapoint.collection_category + generateClusterLabel(datapoint.hdbscan_clusters_min_size_500),
     bgPadding: 5,
     title: trunc(datapoint.label, 100)
   },
@@ -99,6 +107,12 @@ streamingLoaderWorker.onmessage = ({
     var collectionCategoryColorMapping = uniqueCollectionCategories.map(function (x, i) { 
       return {name: x, color: collectionCategoryColors[i]}
     });
+
+    const uniqueClusters = data.map(d => d.hdbscan_clusters_min_size_500).filter(onlyUnique);
+    const clusterColors = uniqueClusters.map(d => categoricalColorScale(hashCode(d) % 20));
+    var clusterColorMapping = uniqueClusters.map(function (x, i) { 
+      return {name: x, color: clusterColors[i]}
+    });
     
     document.getElementById("legend").innerHTML = createLegend(typeColorMapping);
 
@@ -107,6 +121,8 @@ streamingLoaderWorker.onmessage = ({
       webglColor(categoricalColorScale(hashCode(d.type) % 10));
     const collectionCategoryFill = d =>
       webglColor(categoricalColorScale(hashCode(d.collection_category) % 20));
+    const clusterFill = d =>
+      webglColor(categoricalColorScale(hashCode(d.hdbscan_clusters_min_size_500) % 20));
 
     const fillColor = fc.webglFillColor().value(typeFill).data(data);
     pointSeries.decorate(program => fillColor(program));
@@ -116,8 +132,18 @@ streamingLoaderWorker.onmessage = ({
       el.addEventListener("click", () => {
         iterateElements(".controls a", el2 => el2.classList.remove("active"));
         el.classList.add("active");
-        fillColor.value(el.id === "type" ? typeFill : collectionCategoryFill);
-        document.getElementById("legend").innerHTML = (el.id == "type") ? createLegend(typeColorMapping) : createLegend(collectionCategoryColorMapping, maxLegendItems);
+        // fillColor.value(el.id === "type" ? typeFill : collectionCategoryFill);
+        if (el.id == "type") {
+          fillColor.value(typeFill);
+          document.getElementById("legend").innerHTML = createLegend(typeColorMapping); 
+        } else if (el.id == "collectionCategory") {
+          fillColor.value(collectionCategoryFill);
+          document.getElementById("legend").innerHTML = createLegend(collectionCategoryColorMapping, maxLegendItems);
+        } else if (el.id == "clusters") {
+          fillColor.value(clusterFill);
+          document.getElementById("legend").innerHTML = createLegend(clusterColorMapping, maxLegendItems);
+        }
+        // document.getElementById("legend").innerHTML = (el.id == "type") ? createLegend(typeColorMapping) : createLegend(collectionCategoryColorMapping, maxLegendItems);
         redraw();
       });
     });

@@ -14,7 +14,7 @@ if (debug) {
     var pageURI = 'http://collections.vam.ac.uk/item/O1165404/poster/';
 } else {
     // remote: deployed
-    var api_url = 'https://d0rgkq.deta.dev';
+    var api_url = 'http://34.240.58.30:8010';
     var pageURI = window.location.href
 }
 

@@ -17,7 +17,7 @@ if (debug) {
   var api_url = 'http://localhost:8010';
 } else {
   // remote: deployed
-  var api_url = 'http://34.240.58.30:8010';
+  var api_url = 'https://d0rgkq.deta.dev';
 }
 
 const maxLegendItems = 10;

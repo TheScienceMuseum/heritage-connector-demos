@@ -1,6 +1,6 @@
 # Heritage Connector Map Visualisation
 
-Visualisation of all Wikidata QIDs in the knowledge graph with latitude and longitude properties, linked to the [Metadata Explorer](https://thesciencemuseum.github.io/heritage-connector-demos/) with onward links to V&A and Science Museum Group collections, Wikidata, etc.
+Visualisation of all Wikidata QIDs in the knowledge graph with latitude and longitude properties, linked to the [Metadata Explorer](http://heritageconnector.sciencemuseum.org.uk/6_metadata_explorer/index.html) with onward links to V&A and Science Museum Group collections, Wikidata, etc.
 
 Because there is a limit on Google Maps of ten layers, each with max 2,000 pins, and there are 38,576 pins in total, the pins are split across two maps:
 

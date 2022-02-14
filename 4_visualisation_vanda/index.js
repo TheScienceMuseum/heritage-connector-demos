@@ -10,7 +10,7 @@ import {
 // SET ME TO FALSE BEFORE PUSHING
 const debug = false;
 
-const data_path = "https://heritageconnector.s3.eu-west-2.amazonaws.com/visualisation/visualisation_data_vanda.tsv"
+const data_path = "https://smgco-heritageconnector.s3.eu-west-1.amazonaws.com/visualisation/visualisation_data_vanda.tsv"
 
 if (debug) {
   // local debugging
